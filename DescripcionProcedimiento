@@ -1,0 +1,90 @@
+CornerShop Test
+
+
+Entendiendo el problema
+
+1) Dado un conjunto de datos discretos y continuos estimar una salida continua, por lo tanto usare regresion en aprendizaje supervisado.
+2) Herramientas a utilizar Excel, Orange, SciKit Learn.
+3) Analizar los datos
+  3.1) Informacion proporcionada, informacion ultil.
+  3.2) Preprocesamiento de los datos: Limpiar, convertir, interpretar.
+4) Seleccionar maquinas para este tipo de problemas SVM y LinearRegression
+5) Entrenar y testear el aprendizaje
+6) Predecir las casillas en blanco
+
+
+Peocedimiento
+
+1) Analizar los datos, tipos, relevancia en la infomacion que me proporcionaban
+   Seleccione estos datos como relevantes para el aprendizaje
+   - Distancia entre la tienda y el punto de entrega: Se obtuvo la distancia entre los puntos en lugar de los puntos en si, para 
+     ayudar a la maquina, estar conciente que esto generaria distancias equivalentes que posiblemente no queramos que sean equivalentes,
+     pero al aislar este dato con el total de tiempo no parecia tener mcucha relevancia.
+     
+   - Promised_time
+   - dow: Comportamiento aislado en las graficas adjuntas.
+   - actual_time
+   - on_demand:
+   - Cantidad de productos por orden: Comportamiento aislado en los graficos adjuntos.
+   
+   Nota: En el repositorio en la carpeta imagenes estan los graficos que me ayudaron a decidir cuales caracteristicas eran importantes.
+   El analisis de estos datos se realizaron aisladamente para tener una idea que la relevancia con la que podia incidir en el 
+   entrenamiento.
+   
+   Apuntes: Esto me dio una idea de como los datos tenian que estar representados, como darme cuenta que la dancia no era tan relevante
+   como el dia de la semana en que se entregaba, intuyendo que es debio al trafico si asumo que siempre el desplazamientos es con el mismo
+   medio de transporte, por lo cual el tiempo de la compra era de suma relevacia y lo podiamos modelar con el numero de productos por orden.
+   
+   Pense en crear una base de datos para el test pero con la cantidad de dato con excel logre hacer todo lo que debia.    
+ 
+2) Como primer acercamiento para el aprendizaje del modelo lo realice en Orange pero con esta herramienta no lograria entregar un script
+   como solicitaban por lo cual utilice SciKit learn
+   
+3) Con los datos limpios e interpretados procedemos a entrenar las maquinas (SVM y LinearRegression) utilizando SciKit como
+   herramienta.
+
+   Nota: Los pasos 1), 2) y 3) fueron una iteracion constante de cosas que se me ocurrian debia considerar no fueron lineales.
+   
+4) Predecir el vector para los valores en blanco, que estan en el archivo output.txt
+
+Conclusiones generales:
+
+- Aprendi mucho y recorde mucho, incluso antes de comenzar hice un curso en udacity.
+
+Sobre los datos:
+
+Que no podemos dar como cierta la intuicion hay que comprobar al menos en un primer vistazo si nuestra intuicion v apor buen camino.
+Que el dia de la semana sea bastante relevante para la cantidad de tiempo total pero sugiera que el trafico tiene parte de la responsabilidad
+en ello, claro asumiendo que la persona se desplaza siempre por el mismo medio.
+
+Obtener la cantidad de productos por compra es vital para obtener una prediccion decente.
+
+Supociciones:
+- El dia prometido es el dia en que se realiza la compra
+- El tiempo cuenta desde que el shoppers esta en la tienda, de lo contrario la informacion de la posicion del shoppers seria relevante
+- La entrega siempre se hace con el mismo medio de transporte.
+
+Datos utiles faltantes:
+- Seria util tambien saber la velocidad promedio que se desplaza
+- Vehiculo en el cual realiza las compras (por si no siempre fuese el mismo)
+- Locacion del shoppers antes de llegar a la tienda para considerar ese tiempo y un modelo mas completo
+- Tiempo solo de la compra 
+ Con estos dos ultimos datos podemos modelar la prediccion con tres estimadores distintos de la siguiente manera 
+ TotalMinutos = tiempoLlegadaALaTienda + tiempoDeCompra + tiempoDeEntrega
+
+
+Sugerencias: 
+
+   Separar los estimadores como mencione antes pues ambos tienen caracteristicas muy distintas y pueden ser trabajados independientemente,
+   propongo tres estimadores diferentes un estimador que prediga cuanto se tardara el shopper en llegar a la tienda, un segundo que diga
+   cuando se tardara comprando y un tercero que diga cuanto se tarda entregando.
+   
+   TotalMinutos = tiempoLlegadaALaTienda + tiempoDeCompra + tiempoDeEntrega
+   
+   Quizas por politicas de la empresa no puedan hacer o quizas ya lo hacen pero para los estimadores de desplazamiento google maps para
+   desarrolladores tiene una API para calcular el tiempo aproximado en desplazamiento segun hora, medio y trafico.
+   Por lo cual estos dos estimadores podrian sustituirse por la prediccion de maps que en general es bastante buena y solo entrenar 
+   internamente el tiempo de compra.
+   
+   Como principio de programacion divide and conquer :)
+
